@@ -18,6 +18,7 @@ class MainGame:
 
     def GameLoop(self):
         self.LoadSprites();
+        pygame.key.set_repeat(500, 30)
         self.background = pygame.Surface(self.screen.get_size())
         self.background = self.background.convert()
         self.background.fill((255,255,255))
@@ -26,27 +27,12 @@ class MainGame:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
-
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-                        self.player.move(-1, 0)
-                    elif event.key == pygame.K_RIGHT:
-                        self.player.move(1, 0)
-                    elif event.key == pygame.K_UP:
-                        self.player.move(0, -1)
-                    elif event.key == pygame.K_DOWN:
-                        self.player.move(0, 1)
- 
-                elif event.type == pygame.KEYUP:
-                    if event.key == pygame.K_LEFT:
-                        self.player.move(1, 0)
-                    elif event.key == pygame.K_RIGHT:
-                        self.player.move(-1, 0)
-                    elif event.key == pygame.K_UP:
-                        self.player.move(0, 1)
-                    elif event.key == pygame.K_DOWN:
-                        self.player.move(0, -1)
-                        
+                elif event.type == KEYDOWN:
+                    if ((event.key == K_RIGHT)
+                    or (event.key == K_LEFT)
+                    or (event.key == K_UP)
+                    or (event.key == K_DOWN)):
+                        self.player.move(event.key)
 
             Collide1 = pygame.sprite.spritecollide(self.player,self.point_sprites,True)
             self.player.points = self.player.points + len(Collide1)
@@ -58,7 +44,7 @@ class MainGame:
                 text = font.render("Points %s" % self.player.points,1,(0,0,255))
                 textpos = text.get_rect(centerx=self.width/2)
                 self.screen.blit(text,textpos)
-                
+            
 
             self.all_sprites.update()
             self.all_sprites.draw(self.screen)
@@ -77,7 +63,7 @@ class MainGame:
             " 1111011101011101111 ",
             " 1111010000000101111 ",
             " 1111010111110101111 ",
-            " 1000000111110000001 ",
+            " 1000000100010000001 ",
             " 1111010111110101111 ",
             " 1111010000000101111 ",
             " 1111010111110101111 ",
@@ -113,8 +99,6 @@ class MainGame:
                     self.player = Player(x*self.Swidth,y*self.Swidth,32,32)
                     self.all_sprites.add(self.player)
                     self.player_sprites.add(self.player)
-
-        self.player.walls = self.wall_sprites
                     
 
 
@@ -126,30 +110,22 @@ class Player(pygame.sprite.Sprite):
         self.image.fill(BLUE)
         self.rect = self.image.get_rect(topleft=(x,y))
         self.points = 0
-        self.x_dist = 0
-        self.y_dist = 0
-        self.walls = None
+        self.x_dist = 8
+        self.y_dist = 8
 
-    def move(self,x,y):
-        self.x_dist += x
-        self.y_dist += y
+    def move(self, key):
+        xMove = 0;
+        yMove = 0;
 
-    def update(self):
-        self.rect.x += self.x_dist
-        block_hit_list = pygame.sprite.spritecollide(self,self.walls,False)
-        for block in block_hit_list:
-            if self.x_dist > 0:
-                self.rect.right = block.rect.left
-            else:
-                self.rect.left = block.rect.right
-
-        self.rect.y += self.y_dist
-        block_hit_list = pygame.sprite.spritecollide(self,self.walls,False)
-        for block in block_hit_list:
-            if self.y_dist > 0:
-                self.rect.bottom = block.rect.top
-            else:
-                self.rect.top = block.rect.bottom
+        if (key == K_RIGHT):
+            xMove = self.x_dist
+        elif (key == K_LEFT):
+            xMove = -self.x_dist
+        elif (key == K_UP):
+            yMove = -self.y_dist
+        elif (key == K_DOWN):
+            yMove = self.y_dist
+        self.rect.move_ip(xMove,yMove);
         
         
 
