@@ -102,15 +102,15 @@ class MainGame:
         for y, row in enumerate(level):
             for x, item in enumerate(row):
                 if item == '1':
-                    self.wall = Wall(x*self.Swidth,y*self.Swidth,32,32)
+                    self.wall = Wall(x*self.Swidth,y*self.Swidth)
                     self.all_sprites.add(self.wall)
                     self.wall_sprites.add(self.wall)
                 elif item == '0':
-                    self.point = Point(x*self.Swidth,y*self.Swidth,32,32)
+                    self.point = Point(x*self.Swidth,y*self.Swidth)
                     self.all_sprites.add(self.point)
                     self.point_sprites.add(self.point)
                 elif item == '2':
-                    self.player = Player(x*self.Swidth,y*self.Swidth,32,32)
+                    self.player = Player(x*self.Swidth,y*self.Swidth)
                     self.all_sprites.add(self.player)
                     self.player_sprites.add(self.player)
 
@@ -120,7 +120,7 @@ class MainGame:
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self,x,y,image,color):
+    def __init__(self,x,y):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([32,32])
         self.image.fill(BLUE)
@@ -155,7 +155,7 @@ class Player(pygame.sprite.Sprite):
 
 class Point(pygame.sprite.Sprite):
 
-    def __init__(self,x,y,image,color):
+    def __init__(self,x,y):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([32,32])
         self.image.fill(RED)
@@ -163,7 +163,7 @@ class Point(pygame.sprite.Sprite):
 
 class Wall(pygame.sprite.Sprite):
 
-    def __init__(self,x,y,image,color):
+    def __init__(self,x,y):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface([32,32])
         self.image.fill(GREEN)
