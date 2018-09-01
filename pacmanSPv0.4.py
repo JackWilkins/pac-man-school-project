@@ -2,10 +2,8 @@ import pygame
 import os, sys
 from pygame.locals import *
 
-BLUE = (0,0,255)
+BLUE = (0,255,0)
 RED = (255,0,0)
-GREEN = (0,255,0)
-
 
 class MainGame:
 
@@ -59,7 +57,7 @@ class MainGame:
 
         for x in range(HorizontalP):
             for y in range(VerticalP):
-                self.point_sprites.add(Point(pygame.Rect(x*70,y*70,10,10)))
+                self.point_sprites.add(Point(pygame.Rect(x*64,y*64,64,64)))
 
 
 class Player(pygame.sprite.Sprite):
@@ -95,9 +93,7 @@ class Point(pygame.sprite.Sprite):
         self.image.fill(RED)
         if rect != None:
             self.rect = rect
-
-
-
+        
 
 if __name__ == "__main__":
     MainWindow = MainGame()
